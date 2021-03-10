@@ -11,4 +11,26 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-apply from: 'bintray-release.gradle'
+//apply from: 'bintray-release.gradle'
+apply plugin: 'maven'
+
+uploadArchives {
+  def GITHUB_REPO_PATH = "../" //生成的aar文件的保存目录，建议放在project根目录，也可以放在任意目录
+  repositories.mavenDeployer {
+    repository(url: "file://${file(GITHUB_REPO_PATH).absolutePath}")
+    pom.project {  //引用时的格式为【implementation 'com.bqt:aop-log:1.0.0'】
+      groupId rootProject.ext.groupId
+      artifactId 'annotations'
+      version rootProject.ext.publishVersion//当你的库需要修改时，只需更改此版本号即可
+    }
+  }
+}
+
+// 和源代码一起打包
+task androidSourcesJar(type: Jar) {
+  classifier = 'sources'
+  from file("./src/man/java")
+}
+artifacts {
+  archives androidSourcesJar
+}
