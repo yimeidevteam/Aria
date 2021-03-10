@@ -3,52 +3,75 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
 
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-  }
-  dataBinding {
-    enabled = true
-  }
-  lintOptions {
-    abortOnError false
-  }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    lintOptions {
+        abortOnError false
+    }
 
 }
 
 dependencies {
-  api fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  testImplementation 'junit:junit:4.12'
-  api "androidx.appcompat:appcompat:${rootProject.ext.XAppcompatVersion}"
-  api 'com.google.code.gson:gson:2.8.2'
-  api 'io.reactivex:rxandroid:1.2.0'
-  api 'io.reactivex:rxjava:1.1.5'
-  implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-  implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-  implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-  implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-  implementation 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-  implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-  implementation 'androidx.multidex:multidex:2.0.1'
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation 'junit:junit:4.12'
+    api "androidx.appcompat:appcompat:${rootProject.ext.XAppcompatVersion}"
+    api 'com.google.code.gson:gson:2.8.2'
+    api 'io.reactivex:rxandroid:1.2.0'
+    api 'io.reactivex:rxjava:1.1.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-  api 'androidx.lifecycle:lifecycle-runtime:2.0.0'
-  api 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-  kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+    api 'androidx.lifecycle:lifecycle-runtime:2.0.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
 
+}
+apply plugin: 'maven'
+
+uploadArchives {
+    def GITHUB_REPO_PATH = rootDir.absolutePath + "/maven" //生成的aar文件的保存目录，建议放在project根目录，也可以放在任意目录
+    def name=file("./").name
+    repositories.mavenDeployer {
+        repository(url: "file://${file(GITHUB_REPO_PATH).absolutePath}")
+        pom.project {  //引用时的格式为【implementation 'com.bqt:aop-log:1.0.0'】
+            groupId rootProject.ext.groupId
+            artifactId name
+            version rootProject.ext.publishVersion//当你的库需要修改时，只需更改此版本号即可
+        }
+    }
+}
+
+// 和源代码一起打包
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+artifacts {
+    archives androidSourcesJar
 }

@@ -47,7 +47,7 @@ ext {
   versionCode = 390
   versionName = '3.9'
   userOrg = 'arialyy'
-  groupId = 'com.arialyy.aria'
+  groupId = 'Aria'
   publishVersion = versionName
 //  publishVersion = '1.0.4'  //FTP插件
   repoName='maven'
