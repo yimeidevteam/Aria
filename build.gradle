@@ -46,17 +46,8 @@ task clean(type: Delete) {
 }
 
 ext {
-  versionCode = 390
-  versionName = '3.9'
-  userOrg = 'arialyy'
-  groupId = 'Aria'
-  publishVersion = versionName
-//  publishVersion = '1.0.4'  //FTP插件
-  repoName='maven'
-//  repoName='aria'
-  desc = 'android 下载框架'
-  website = 'https://github.com/AriaLyy/Aria'
-  licences = ['Apache-2.0']
+  versionCode = 391
+  versionName = 'v4.1'
 
   compileSdkVersion = 28
   supportLibVersion = "27.1.1"
