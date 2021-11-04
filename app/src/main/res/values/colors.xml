@@ -11,4 +11,5 @@
   <color name="bg_grey">#efefef</color>
   <color name="bg_line">#597F96</color>
   <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
 </resources>
