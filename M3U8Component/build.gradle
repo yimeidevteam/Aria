@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -34,26 +35,26 @@ dependencies {
 }
 
 //apply from: 'bintray-release.gradle'
-apply plugin: 'maven'
-
-uploadArchives {
-  def GITHUB_REPO_PATH = rootDir.absolutePath+"/maven"
-  def name=file("./").name
-  repositories.mavenDeployer {
-    repository(url: "file://${file(GITHUB_REPO_PATH).absolutePath}")
-    pom.project {  //引用时的格式为【implementation 'com.bqt:aop-log:1.0.0'】
-      groupId rootProject.ext.groupId
-      artifactId  name
-      version rootProject.ext.publishVersion//当你的库需要修改时，只需更改此版本号即可
-    }
-  }
-}
-
-// 和源代码一起打包
-task androidSourcesJar(type: Jar) {
-  classifier = 'sources'
-  from android.sourceSets.main.java.sourceFiles
-}
-artifacts {
-  archives androidSourcesJar
-}
+//apply plugin: 'maven'
+//
+//uploadArchives {
+//  def GITHUB_REPO_PATH = rootDir.absolutePath+"/maven"
+//  def name=file("./").name
+//  repositories.mavenDeployer {
+//    repository(url: "file://${file(GITHUB_REPO_PATH).absolutePath}")
+//    pom.project {  //引用时的格式为【implementation 'com.bqt:aop-log:1.0.0'】
+//      groupId rootProject.ext.groupId
+//      artifactId  name
+//      version rootProject.ext.publishVersion//当你的库需要修改时，只需更改此版本号即可
+//    }
+//  }
+//}
+//
+//// 和源代码一起打包
+//task androidSourcesJar(type: Jar) {
+//  classifier = 'sources'
+//  from android.sourceSets.main.java.sourceFiles
+//}
+//artifacts {
+//  archives androidSourcesJar
+//}
