@@ -9,11 +9,10 @@ buildscript {
     maven { url 'https://jitpack.io' }
   }
   dependencies {
-      classpath 'com.github.dcendents:android-maven-gradle-plugin:+'
-
+    classpath "com.android.tools.build:gradle:4.1.2"
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 //    classpath 'com.android.tools.build:gradle:2.3.3'
 //    classpath 'com.android.tools.build:gradle:3.3.2'
-    classpath 'com.android.tools.build:gradle:4.0.2'
     classpath 'com.novoda:bintray-release:0.9.1'
 //    classpath 'com.novoda:bintray-release:0.9'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
